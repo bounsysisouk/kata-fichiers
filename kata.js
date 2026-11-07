@@ -21,7 +21,7 @@ writeFileSync("bonjour.txt", "Au revoir Ada !")
 //-----------EXERCICE 3------------\\
 
 const courses = ["pain", "lait", "pommes"]
-/* écrire sur plusieurs ligne */
+/* rassemble la chaine et écris sur plusieurs ligne */
 writeFileSync("courses.txt", courses.join("\n"))
 
 //-----------EXERCICES 4-------------\\
@@ -44,3 +44,67 @@ console.log(profilLu.langages.length)
 
 //-------------EXERCICES 5------------\\
 
+/* Donnees fournies */
+const taches = [
+    { nom: "lire le cours", faite: true },
+    { nom: "finir le TP", faite: true },
+    { nom: "relire mes notes", faite: false },
+]
+/* <----------FONCTION-------------> */
+function ecrireBilan(chemin, taches) {
+    // instructions pour la fonction
+    if (taches.length === 0) {
+    writeFileSync(chemin, "Aucune tâche aujourd'hui")
+    return
+    }
+
+    const lignes = taches.map((tache) => {
+        let emoji
+        if (tache.faite === true) {
+            emoji = "✅"
+        } else {
+            emoji = "❌"    
+        }
+        /* retourne un emoji et le nom de la tache */ 
+        return `${emoji} ${tache.nom}`
+    })
+    // Condition 
+    /* filtre la condition true */
+    const tachesFaites = taches.filter((tache) => {
+        return tache.faite === true
+    })
+    /* pourcentage */
+    const pourcentage = Math.round((tachesFaites.length / taches.length) * 100)
+        /* retoune le detail des taches puis une ligne vide puis le pourcentage */
+        const contenuBilan = lignes.join("\n") + "\n\n" + `Tâches faites : ${pourcentage}%`
+        
+        writeFileSync(chemin, contenuBilan)
+}
+ecrireBilan("bilan.txt", taches)
+
+
+
+/*==================================================================================================
+
+                   QUESTION DE RECULE
+==================================================================================================
+
+Question 1
+Que se passe-t-il si tu relances ton script plusieurs fois ? Combien de fichiers courses.txt obtiens-tu, et que contiennent-ils ?
+
+writeFileSync() écrase le contenu existant à chaque nouvelle écriture, On a donc que un fichier avec le meme donnees.
+
+Question 2
+Essaie writeFileSync("test.txt", { a: 1 }), sans JSON.stringify. 
+Que dit Node ? Qu'est-ce que ça t'apprend sur ce qu'un fichier peut contenir ?
+
+Pour écrire un objet JavaScript dans un fichier,
+je dois le convertir en chaîne de caractères avec JSON.stringify().
+
+Question 3
+Dans quel cas un chemin relatif comme "bilan.txt" écrit-il le fichier ailleurs que là où tu l'attendais ?
+
+
+Un chemin relatif dépend du répertoire de travail courant.
+Si je lance le script depuis un autre dossier, le fichier
+peut être créé ailleurs que prévu. */
