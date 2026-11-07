@@ -50,6 +50,10 @@ const taches = [
     { nom: "finir le TP", faite: true },
     { nom: "relire mes notes", faite: false },
 ]
+
+/* Chemin absolu */
+const cheminBilan = join(homedir(), "ada-tech", "bloc1", "kata", "S06", "kata-fichiers", "bilan.txt")
+
 /* <----------FONCTION-------------> */
 function ecrireBilan(chemin, taches) {
     // instructions pour la fonction
@@ -57,6 +61,8 @@ function ecrireBilan(chemin, taches) {
     writeFileSync(chemin, "Aucune tâche aujourd'hui")
     return
     }
+    // ajoute date du jours 
+    const date = new Date().toLocaleDateString("fr-FR")
 
     const lignes = taches.map((tache) => {
         let emoji
@@ -75,12 +81,12 @@ function ecrireBilan(chemin, taches) {
     })
     /* pourcentage */
     const pourcentage = Math.round((tachesFaites.length / taches.length) * 100)
-        /* retoune le detail des taches puis une ligne vide puis le pourcentage */
-        const contenuBilan = lignes.join("\n") + "\n\n" + `Tâches faites : ${pourcentage}%`
+        /* date + retoune le detail des taches puis une ligne vide puis le pourcentage */
+        const contenuBilan = "Bilan du " + date + "\n\n" + lignes.join("\n") + "\n\n" + `Tâches faites : ${pourcentage} %`
         
         writeFileSync(chemin, contenuBilan)
 }
-ecrireBilan("bilan.txt", taches)
+ecrireBilan(cheminBilan, taches)
 
 
 
