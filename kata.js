@@ -15,3 +15,5 @@ console.log(lire)
 
 //---------EXERCICES 2------------\\
 
+/* ecraser le texte */
+writeFileSync("bonjour.txt", "Au revoir Ada !") 
